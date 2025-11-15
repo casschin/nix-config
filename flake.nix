@@ -23,47 +23,47 @@
       nixpkgs.config.allowUnfree = true;
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ 
-	  pkgs.brave
-	  pkgs.google-chrome
-          pkgs.neovim
-          pkgs.ghostty-bin
-	  pkgs._1password-gui
-	  pkgs.raycast
-        ];
+      environment.systemPackages = [ 
+        pkgs._1password-gui
+        pkgs.brave
+        pkgs.ghostty-bin
+        pkgs.google-chrome
+        pkgs.neovim
+        pkgs.raycast
+        pkgs.vscode
+      ];
 
       system.primaryUser = "cass";
       system.defaults = {
         dock.autohide = true;
-	dock.persistent-apps = [];
-	NSGlobalDomain.KeyRepeat = 2;
-	CustomUserPreferences = {
-	  "com.apple.symbolichotkeys" = {
-	    AppleSymbolicHotKeys = {
-	      # Disable 'Cmd + Space' for Spotlight Search
+        dock.persistent-apps = [];
+        NSGlobalDomain.KeyRepeat = 2;
+        CustomUserPreferences = {
+          "com.apple.symbolichotkeys" = {
+            AppleSymbolicHotKeys = {
+              # Disable 'Cmd + Space' for Spotlight Search
               "64" = {
                 enabled = false;
               };
-	    };
-	  };
-	};
+            };
+          };
+        };
       };
       system.keyboard = {
       	enableKeyMapping = true;
-  	remapCapsLockToControl = true;
+  	    remapCapsLockToControl = true;
       };
 
       homebrew = {
         enable = true;
-	brews = [
-	  "mas"
-	];
+        brews = [
+          "mas"
+        ];
 
-	# only packages in this config will be installed, otherwise, others will be removed
-	onActivation.cleanup = "zap";
-	onActivation.autoUpdate= true;
-	onActivation.upgrade= true;
+        # only packages in this config will be installed, otherwise, others will be removed
+        onActivation.cleanup = "zap";
+        onActivation.autoUpdate= true;
+        onActivation.upgrade= true;
       };
 
       nix.enable = false;
@@ -92,18 +92,18 @@
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
-	{
-	  nix-homebrew = {
-	    # Install Homebrew under the default prefix
+	      {
+	        nix-homebrew = {
+            # Install Homebrew under the default prefix
             enable = true;
 
             # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
             enableRosetta = true;
 
             # User owning the Homebrew prefix
-	    user = "cass";
+            user = "cass";
 
-	    # Optional: Declarative tap management
+            # Optional: Declarative tap management
             taps = {
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
@@ -113,9 +113,9 @@
             #
             # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
             mutableTaps = false;
-	  };
-	}
-	# Optional: Align homebrew taps config with nix-homebrew
+          };
+	      }
+	      # Optional: Align homebrew taps config with nix-homebrew
         ({config, ...}: {
           homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
         })
